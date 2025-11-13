@@ -7,11 +7,11 @@
         body {
             font-family: 'Arial', sans-serif;
             background: #f6f8fa;
-            color: #F2F4F6;
+            color: #27702b;
             padding: 20px;
         }
         .container {
-            background: #186820;
+            background: #e5dec5;
             border-radius: 8px;
             padding: 25px;
             max-width: 600px;
@@ -20,7 +20,7 @@
         }
         .header {
             text-align: center;
-            border-bottom: 2px solid #e5e5e5;
+            border-bottom: 2px solid #27702b;
             padding-bottom: 10px;
         }
         .header img {
@@ -29,7 +29,7 @@
         }
         .header h2 {
             margin: 5px 0;
-            color: #333;
+            color: #27702b;
         }
         .message {
             margin-top: 20px;
@@ -50,7 +50,7 @@
             text-align: center;
             margin-top: 25px;
             font-size: 12px;
-            color: #F2F4F6;
+            color: #b82d16;
         }
     </style>
 </head>
@@ -58,8 +58,8 @@
 <div class="container">
     <div class="header">
         {{-- Si tienes un logo --}}
-        <img src="/assets/img/granvn-logosf.png" alt="Gran Villa Navideña Metepec">
-        <h2 style="color: #f2f4f5">Gran Villa Navideña Metepec</h2>
+        <img src=" {{ asset('/assets/img/granvn-logosf.png') }}" alt="Gran Villa Navideña Metepec">
+        <h2 style="color: #27702b">Gran Villa Navideña Metepec</h2>
     </div>
 
     <div class="message">
@@ -89,7 +89,7 @@
         <p>© {{ date('Y') }} Gran Villa Navideña Metepec</p>
         <p>Este es un correo automático, por favor no respondas a este mensaje.</p>
         
-            <a style="color:F2F4F6" href="https://luradev.com">LuraDev - Todos los derechos reservados -2025 </a>
+            <a style="color:#b82d16" href="https://luradev.com">LuraDev - Todos los derechos reservados -2025 </a>
         
     </div>
 </div>

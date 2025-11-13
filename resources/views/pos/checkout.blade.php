@@ -52,7 +52,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', san
 </div>
 
 <script>
-const API_URL = "/api/pos";
+const API_URL = "https://luradev.com/gvnmetepec/api/pos";
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').content;
 
 // Recuperar carrito del localStorage
@@ -158,7 +158,7 @@ document.getElementById('processSaleBtn').onclick = async () => {
         );
 
         localStorage.removeItem('cart');
-        window.location.href = '/pos';
+        window.location.href = "{{ url('/pos') }}" ;
 
     } catch(e) {
         console.error(e);

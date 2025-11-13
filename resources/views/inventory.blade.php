@@ -10,7 +10,7 @@
 
     <nav class="bg-white-700 text-white p-4 shadow">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-             <img style="max-width: 100px;" src="/assets/img/granvn-logosf.png" alt="">
+             <img style="max-width: 100px;" src=" {{ asset('/assets/img/granvn-logosf.png') }}" alt="">
             <h1 style="color: #4A5568;" class="text-lg font-semibold">Administración de Inventario</h1>
             <a href="{{ url('/') }}" class="bg-green-600 text-white px-5 py-2.5 rounded-lg rounded hover:bg-green-700">Regresar a ventas</a>
         </div>
@@ -225,7 +225,7 @@
         document.getElementById('edit_sale_price').value = product.sale_price ?? 0;
 
         // Actualizar acción del formulario
-        form.action = `/inventory/${product.id}`;
+        form.action = "{{ route('inventory.update', ':id') }}".replace(':id',product.id);
     }
 
     function closeModal() {
