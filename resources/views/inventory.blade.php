@@ -225,7 +225,7 @@
         document.getElementById('edit_sale_price').value = product.sale_price ?? 0;
 
         // Actualizar acción del formulario
-        form.action = `/inventory/${product.id}`;
+        form.action = `"/inventory/${product.id}`;
     }
 
     function closeModal() {

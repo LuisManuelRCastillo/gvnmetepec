@@ -158,7 +158,7 @@ document.getElementById('processSaleBtn').onclick = async () => {
         );
 
         localStorage.removeItem('cart');
-        window.location.href = '/pos';
+        window.location.href = "{{ url('/pos') }}";
 
     } catch(e) {
         console.error(e);
