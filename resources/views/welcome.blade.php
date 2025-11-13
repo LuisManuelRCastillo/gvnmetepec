@@ -22,7 +22,7 @@
     <!-- Panel Productos -->
     <div class="flex-1 flex flex-col p-4">
         <div class="flex items-center justify-between mb-4">
-            <img style="max-width: 50px;" src="/assets/img/granvn-logosf.png" alt="">
+            <img style="max-width: 50px;" src=" {{ asset('/assets/img/granvn-logosf.png') }}" alt="">
             <span class="text-sm text-gray-600">{{ now()->format('d/m/Y H:i') }}</span>
         </div>
 
@@ -61,7 +61,7 @@
 </div>
 
 <script>
-const API_URL = "{{ url('/api/pos') }}";
+const API_URL = "{{ url('https://luradev.com/gvnmetepec/api/pos') }}";
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').content;
 
 let products = [];
@@ -231,7 +231,7 @@ closeCart.onclick = () => {
 
 checkoutModalBtn.onclick = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
-    window.location.href = '/checkout';
+    window.location.href = "{{ url('/checkout') }}";
 };
 
 // ======== Búsqueda ========

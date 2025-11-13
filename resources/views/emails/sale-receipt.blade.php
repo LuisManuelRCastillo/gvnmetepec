@@ -58,7 +58,11 @@
 <div class="container">
     <div class="header">
         {{-- Si tienes un logo --}}
+<<<<<<< HEAD
         <img src="/assets/img/granvn-logosf.png" alt="Gran Villa Navideña Metepec">
+=======
+        <img src=" {{ asset('/assets/img/granvn-logosf.png') }}" alt="Gran Villa Navideña Metepec">
+>>>>>>> b380a64c04cdf1c74dca908995276c9c3481190b
         <h2 style="color: #27702b">Gran Villa Navideña Metepec</h2>
     </div>
 
