@@ -21,10 +21,10 @@
 
     <!-- Panel Productos -->
     <div class="flex-1 flex flex-col p-4">
-        <div class="flex items-center justify-between mb-4">
-            <img style="max-width: 50px;" src=" {{ asset('/assets/img/granvn-logosf.png') }}" alt="">
-            <span class="text-sm text-gray-600">{{ now()->format('d/m/Y H:i') }}</span>
-        </div>
+        <div class="relative flex items-center mb-4">
+    <img style="max-width: 50px;" src="{{ asset('/assets/img/granvn-logosf.png') }}" alt="">
+    <div id="branchesContainer" class="absolute left-1/2 transform -translate-x-1/2"></div>
+</div>
 
         <!-- Buscador -->
         <div class="relative mb-4">
@@ -54,6 +54,7 @@
         <h2 class="text-xl font-bold mb-4">Carrito</h2>
         <div id="cartItems" class="space-y-2 max-h-64 overflow-y-auto scrollbar-hidden"></div>
         <div id="cartSummaryModal" class="mt-4 font-bold"></div>
+        
         <button id="checkoutModalBtn" class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
             Ir a Checkout
         </button>
@@ -72,6 +73,7 @@ let searchTerm = '';
 
 const productsContainer = document.getElementById('productsContainer');
 const categoriesContainer = document.getElementById('categoriesContainer');
+const branchesContainer = document.getElementById('branchesContainer');
 const cartBtn = document.getElementById('cartBtn');
 const cartModal = document.getElementById('cartModal');
 const closeCart = document.getElementById('closeCart');
@@ -94,7 +96,14 @@ async function fetchAPI(endpoint, options = {}) {
     if(!res.ok) throw new Error(await res.text());
     return res.json();
 }
-
+async function loadBranches() {
+    try {
+        const data = await fetchAPI('/branches');
+        branches = [ ...data];  
+        renderBranches();
+      
+    } catch(e) { console.error(e); }
+}
 // Cargar categorías
 async function loadCategories() {
     try {
@@ -115,6 +124,28 @@ async function loadProducts() {
         renderProducts();
     } catch(e) { console.error(e); }
 }
+let branches = []; // Aquí van las sucursales
+let selectedBranch = null;
+function renderBranches() {
+    const branchesContainer = document.getElementById('branchesContainer');
+    branchesContainer.innerHTML = '';
+
+    branches.forEach(branch => {
+        const btn = document.createElement('button');
+        btn.textContent = branch.name;
+        btn.className = `px-4 py-2 rounded-lg font-semibold transition-all ${
+            selectedBranch === branch.id ? 'bg-green-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+        }`;
+        btn.onclick = () => {
+            selectedBranch = branch.id;
+          localStorage.setItem('selectedBranchId', branch.id);     
+    localStorage.setItem('selectedBranchName', branch.name); 
+            renderBranches();
+        };
+        branchesContainer.appendChild(btn);
+    });
+}
+
 
 // Render categorías
 function renderCategories() {
@@ -242,6 +273,7 @@ document.getElementById('searchInput').oninput = e => {
 };
 
 // Inicializar
+loadBranches(); 
 loadCategories();
 loadProducts();
 renderCartModal();

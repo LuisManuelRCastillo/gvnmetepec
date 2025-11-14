@@ -17,10 +17,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', san
 </head>
 <body>
 <div class="max-w-md mx-auto p-6 bg-white shadow-lg mt-10 rounded-lg">
-    <h2 class="text-2xl font-bold mb-4">Checkout</h2>
+    <h2 class="text-2xl font-bold mb-4">Checkout</h2><label> <p id="selectedBranch"></p></label>
+
 
     <!-- Resumen carrito -->
     <div id="cartSummary" class="mb-4 space-y-2"></div>
+
 
     <!-- Cliente -->
     <input id="customerName" type="text" placeholder="Nombre cliente (opcional)" class="w-full p-3 mb-3 border rounded-lg">
@@ -58,6 +60,10 @@ const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').content;
 // Recuperar carrito del localStorage
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let discount = 0;
+const selectedBranchId = localStorage.getItem('selectedBranchId') || null;
+const selectedBranchName = localStorage.getItem('selectedBranchName') || 'No seleccionada';
+
+document.getElementById('selectedBranch').textContent = `Sucursal: ${selectedBranchName}`;
 
 const cartSummary = document.getElementById('cartSummary');
 const summaryContainer = document.getElementById('summaryContainer');
@@ -136,6 +142,7 @@ document.getElementById('processSaleBtn').onclick = async () => {
                 subtotal,
                 discount: subtotal*discount,
                 total,
+                branch_id: selectedBranchId,
                 items: cart.map(i=>({product_id:i.id, quantity:i.quantity, unit_price:i.price, total:i.price*i.quantity}))
             })
         });

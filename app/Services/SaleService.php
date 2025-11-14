@@ -39,6 +39,7 @@ class SaleService
                 'status' => 'completada',
                 'notes' => $data['notes'] ?? null,
                 'sale_date' => now(),
+                'branch_id' => $data['branch_id'] ?? null,
             ]);
             
             // Procesar detalles

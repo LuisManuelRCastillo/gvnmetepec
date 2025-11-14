@@ -10,6 +10,7 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('pos')->group(function () {
     Route::get('/', [ProductsController::class, 'index']);
+    Route::get('/branches', [ProductsController::class, 'getBranches']);
     Route::get('/products', [ProductsController::class, 'getProducts']);
     Route::get('/categories', [ProductsController::class, 'getCategories']);
     Route::post('/sales', [ProductsController::class, 'processSale']);

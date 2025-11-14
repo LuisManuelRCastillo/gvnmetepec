@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Sale;
 use App\Services\SaleService;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 
@@ -28,7 +29,10 @@ class ProductsController extends Controller
     {
         return view('welcome');
     }
-    
+    public function getBranches(){
+        $branches = \App\Models\branchModel::all();
+        return response()->json($branches); 
+    }
     /**
      * Obtener productos para el POS
      */
@@ -86,6 +90,8 @@ class ProductsController extends Controller
      * Procesar venta
      */
     // ProductsController.php
+
+   
 public function processSale(Request $request)
 {
     $validated = $request->validate([
@@ -102,6 +108,7 @@ public function processSale(Request $request)
         'items.*.quantity' => 'required|integer|min:1',
         'items.*.unit_price' => 'required|numeric|min:0',
         'items.*.total' => 'required|numeric|min:0',
+        'branch_id' => 'required|exists:branches,id',
     ]);
 
     try {
@@ -115,6 +122,7 @@ public function processSale(Request $request)
             'amount_paid' => $validated['amount_paid'],
             'change_amount' => $validated['change_amount'] ?? 0,
             'items' => $validated['items'],
+            'branch_id' => $validated['branch_id'],
         ]);
 
         $emailSent = false;
@@ -126,8 +134,11 @@ public function processSale(Request $request)
                     ['name' => $validated['customer_name'] ?? 'Cliente']
                 );
                 $sale->update(['customer_id' => $customer->id]);
+                $sale = $sale->load('details.product', 'branch');
+                 $pdf = Pdf::loadView('emails.pdf-comprobant', compact('sale')); // aquí pones tu vista del PDF
+        $pdfData = $pdf->output();
 
-                \Mail::to($validated['customer_email'])->send(new \App\Mail\SaleReceipt($sale));
+                \Mail::to($validated['customer_email'])->send(new \App\Mail\SaleReceipt($sale, $pdfData));
                 $emailSent = true;
                 $sale->update(['email_sent' => true]);
             } catch (\Exception $e) {
@@ -191,6 +202,7 @@ public function processSale(Request $request)
     {
         $sale = Sale::with(['user', 'customer', 'details.product.category'])
             ->findOrFail($id);
+            
         
         return response()->json($sale);
     }
@@ -383,5 +395,7 @@ public function processSale(Request $request)
     $products = \App\Models\Product::all(); 
     return view('inventory', compact('categories', 'products'));
     }
+
+
 
 }

@@ -13,7 +13,7 @@ class Sale extends Model
     protected $fillable = [
         'invoice_number', 'user_id', 'customer_id', 'subtotal',
         'discount', 'tax', 'total', 'payment_method', 'amount_paid',
-        'change_amount', 'status', 'notes', 'sale_date', 'email_sent'
+        'change_amount', 'status', 'notes', 'sale_date', 'email_sent', 'branch_id'
     ];
     
     protected $casts = [
@@ -41,7 +41,10 @@ class Sale extends Model
     {
         return $this->hasMany(SaleDetail::class);
     }
-    
+    public function branch()
+{
+    return $this->belongsTo(BranchModel::class);
+}
     // Generar número de factura automático
     public static function generateInvoiceNumber()
     {

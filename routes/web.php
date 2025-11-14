@@ -38,3 +38,4 @@ Route::get('/test-email', function () {
 
     return (new SaleReceipt($sale))->render();
 });
+
